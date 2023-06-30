@@ -1,12 +1,16 @@
-import { Button } from "@/components/ui/button"
+'use client'
 
-export default function Home() {
+import { Modal } from "@/components/ui/modal";
+import { UserButton } from "@clerk/nextjs";
+
+export default function RootPage() {
+
+
   return (
     <section>
       <div>
-        <Button size={"lg"} variant="destructive">Button</Button>
+        <UserButton />
       </div>
-      
     </section>
-  )
+  );
 }
