@@ -1,15 +1,20 @@
 'use client'
-
-import { Modal } from "@/components/ui/modal";
 import { UserButton } from "@clerk/nextjs";
 
-export default function RootPage() {
+import { Button } from "@/components/ui/button";
+import { useStoreModal } from "@/hooks/use-store-modal";
 
+
+
+export default function RootPage() {
+  const isOpen = useStoreModal((state) => state.isOpen)
+  const onOpen = useStoreModal((state) => state.onOpen)
 
   return (
     <section>
       <div>
         <UserButton />
+        <Button onClick={onOpen}>Open Modal</Button>
       </div>
     </section>
   );
