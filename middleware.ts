@@ -6,6 +6,7 @@ export default authMiddleware();
 export const config = {
   // matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
   matcher: [
-    "/" // 当用户到达 /home-page 的时候，会被重新定向到 signin 
+    "/", // 当用户到达 /home-page 的时候，会被重新定向到 signin
+    "/(api|trpc)(.*)",
   ],
 };

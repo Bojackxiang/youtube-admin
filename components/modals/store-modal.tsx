@@ -1,34 +1,55 @@
 "use client";
+const pathAlias = "components/modals/store-modal.tsx";
 
-import React from "react";
+import React, { useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from 'axios'
 
 import { Modal } from "@/components/ui/modal";
 import { useStoreModal } from "@/hooks/use-store-modal";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { API_STORES } from "@/common/contants";
+import { toast } from "react-hot-toast";
 
 const formSchema = z.object({
   name: z.string().min(1, "Store must not be empty"),
 });
 
 const StoreModal = () => {
-  const onClose = useStoreModal(state => state.onClose);
-  const isOpen = useStoreModal(state => state.isOpen);
+  const onClose = useStoreModal((state) => state.onClose);
+  const isOpen = useStoreModal((state) => state.isOpen);
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
     },
   });
-  const isNameFieldInvalid = !!form.formState.errors.name;
-  
 
-  const onSubmit = (value: z.infer<typeof formSchema>) => {
-    console.log(value);
+  const isNameFieldInvalid = !!form.formState.errors.name;
+
+  const onSubmit = async (value: z.infer<typeof formSchema>) => {
+    try {
+      setLoading(true)
+      const response = await axios.post(API_STORES, value);
+    } catch (error: any) {
+      toast.error("Something wrong, try again laster ")
+      console.error(pathAlias, error.message)
+    }  finally{
+      setLoading(false)
+    }
   };
 
   return (
@@ -45,19 +66,26 @@ const StoreModal = () => {
               <FormField
                 control={form.control}
                 name="name"
-                render={({ field }) => <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input className={isNameFieldInvalid ? 'border-red-500' : ''} placeholder="E-Commence" {...field}/>
-                  </FormControl>
-                  <FormMessage>
-                    
-                  </FormMessage>
-                </FormItem>}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        className={isNameFieldInvalid ? "border-red-500" : ""}
+                        placeholder="E-Commence"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
               <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                <Button variant="outline" onClick={onClose}>Cancel</Button>
-                <Button type="submit">Continue</Button>
+                <Button variant="outline" onClick={onClose} disabled={loading}>
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={loading}>Continue</Button>
               </div>
             </form>
           </Form>
