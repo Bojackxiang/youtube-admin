@@ -12,7 +12,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
 const formSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().min(1, "Store must not be empty"),
 });
 
 const StoreModal = () => {
@@ -24,6 +24,8 @@ const StoreModal = () => {
       name: "",
     },
   });
+  const isNameFieldInvalid = !!form.formState.errors.name;
+  
 
   const onSubmit = (value: z.infer<typeof formSchema>) => {
     console.log(value);
@@ -46,7 +48,7 @@ const StoreModal = () => {
                 render={({ field }) => <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="E-Commence" {...field}/>
+                    <Input className={isNameFieldInvalid ? 'border-red-500' : ''} placeholder="E-Commence" {...field}/>
                   </FormControl>
                   <FormMessage>
                     
