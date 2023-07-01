@@ -21,6 +21,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { API_STORES } from "@/common/contants";
 import { toast } from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, "Store must not be empty"),
@@ -44,6 +45,8 @@ const StoreModal = () => {
     try {
       setLoading(true)
       const response = await axios.post(API_STORES, value);
+      // do a refresh 
+      window.location.assign(`/${response.data.id}`)
     } catch (error: any) {
       toast.error("Something wrong, try again laster ")
       console.error(pathAlias, error.message)
