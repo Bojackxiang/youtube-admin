@@ -5,9 +5,15 @@ import useAuthCheck from '@/hooks/auth-check';
 import StoreSwitcher from './StoreSwitcher';
 import { UserButton } from '@clerk/nextjs';
 import MainNav from './MainNav';
+import { redirect } from 'next/navigation';
 
 const Navbar = async () => {
   const currentUserId = useAuthCheck();
+
+  if(!currentUserId){
+    redirect("/sign-in")
+  }
+
   const stores = await prismadb.store.findMany({
     where: {
       userId: currentUserId
@@ -25,7 +31,7 @@ const Navbar = async () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Navbar
