@@ -1,7 +1,9 @@
+import Navbar from "@/components/Navbar";
 import useAuthCheck from "@/hooks/auth-check";
 import prismadb from "@/lib/prismadb";
 import { auth, redirectToSignIn } from "@clerk/nextjs";
 import {redirect} from 'next/navigation'
+
 
 export default async function DashboardLayout({
   children,
@@ -28,7 +30,7 @@ export default async function DashboardLayout({
 
   return (
     <section className="">
-      <div>this is a nav bar</div>
+      <Navbar/>
       {children}
     </section>
   );
