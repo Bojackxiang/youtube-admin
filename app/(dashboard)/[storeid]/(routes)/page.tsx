@@ -1,26 +1,24 @@
-import useAuthCheck from '@/hooks/auth-check'
-import prismadb from '@/lib/prismadb'
-import React from 'react'
+import useAuthCheck from "@/hooks/auth-check";
+import prismadb from "@/lib/prismadb";
+import React from "react";
 
-const DashboardPage = async ({params}: {
+const DashboardPage = async ({
+  params,
+}: {
   params: {
-    storeId: string
-  }
+    storeId: string;
+  };
 }) => {
   const currentUserId = useAuthCheck();
 
   const store = await prismadb.store.findFirst({
     where: {
       id: params.storeId,
-      userId: currentUserId
-    }
-  })
+      userId: currentUserId,
+    },
+  });
 
-  return (
-    <section>
-      Store name: {store?.name}
-    </section>
-  )
-}
+  return <section>Store name: {store?.name}</section>;
+};
 
-export default DashboardPage
+export default DashboardPage;
