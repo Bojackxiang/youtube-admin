@@ -8,6 +8,7 @@ import { twMerge } from "tailwind-merge";
 function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
+  console.log(params)
 
   const routes = [
     {
@@ -46,9 +47,9 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
       active: pathname === `/${params.storeId}/orders`,
     },
     {
-      href: `/${params.storeId}/settings`,
+      href: `/${params.storeid}/settings`,
       label: "Settings",
-      active: pathname === `/${params.storeId}/settings`,
+      active: pathname === `/${params.storeid}/settings`,
     },
   ];
 
