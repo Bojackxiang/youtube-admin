@@ -50,43 +50,40 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
 
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
     try {
-      setLoading(true)
-      await axios.patch(`${API_STORES}/${params.storeid}`, value)
-      toast.success("Store updated ")
+      setLoading(true);
+      await axios.patch(`${API_STORES}/${params.storeid}`, value);
+      toast.success("Store updated ");
       router.refresh();
     } catch (error: any) {
-      toast.error("Something went wrong")
-      console.log(error.message)
+      toast.error("Something went wrong");
+      console.log(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
   const onDelete = async () => {
     try {
-      setLoading(true)
-      await axios.delete(`${API_STORES}/${params.storeid}`)
-      toast.success("Store Deleted ")
+      setLoading(true);
+      await axios.delete(`${API_STORES}/${params.storeid}`);
+      toast.success("Store Deleted ");
       router.refresh();
     } catch (error: any) {
-      toast.error("Something went wrong")
-      console.log(error.message)
+      toast.error("Something went wrong");
+      console.log(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
-  
-
-
   return (
     <>
-    <AlertModal 
-      isOpen={open} 
-      onClose={() => setOpen(false)}
-      onConfirm={onDelete}
-      loading={loading}
-    />
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+        loading={loading}
+      />
       <div className="flex items-center justify-between">
         <Heading
           title="Store settings"
