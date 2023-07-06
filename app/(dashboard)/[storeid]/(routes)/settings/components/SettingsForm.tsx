@@ -23,6 +23,8 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { API_STORES } from "@/common/contants";
 import AlertModal from "@/components/modals/AlertModal";
+import { ApiAlert } from "@/components/ui/ApiAlert";
+import { useOrigin } from "@/hooks/use-origin";
 
 interface SettingsFormProps {
   initialData: Store;
@@ -37,6 +39,7 @@ type formType = z.infer<typeof formSchema>;
 const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
+  const origin = useOrigin()
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -68,6 +71,8 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       await axios.delete(`${API_STORES}/${params.storeid}`);
       toast.success("Store Deleted ");
       router.refresh();
+      router.push("/");
+      toast.success("Store Deleted ");
     } catch (error: any) {
       toast.error("Something went wrong");
       console.log(error.message);
@@ -128,6 +133,12 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
           </Button>
         </form>
       </Form>
+      <Separator />
+      <ApiAlert
+        title={"title"}
+        description={`${origin}/api/${params.storeid}`}
+        variant={"public"}
+      />
     </>
   );
 };

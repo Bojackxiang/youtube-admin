@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Modal } from "../ui/modal";
 import { Button } from "../ui/button";
 
@@ -15,6 +15,16 @@ const AlertModal = ({
   onClose,
   onConfirm,
 }: AlertModalProps) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+  
   return (
     <Modal
       title="Are you sure?"
