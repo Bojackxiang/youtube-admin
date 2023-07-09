@@ -37,7 +37,6 @@ interface BillboardFormProps {
 }
 
 const BillBoardForm = ({ initialData }: BillboardFormProps) => {
-  console.log('initialData: ', initialData);
   const params = useParams();
   const router = useRouter();
 

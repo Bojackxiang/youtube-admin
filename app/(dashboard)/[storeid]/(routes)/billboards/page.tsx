@@ -26,8 +26,6 @@ const BillBoardPage = async ({ params: { storeid } }: BillBoardProps) => {
     },
   });
 
-  console.log("billboards: ", billboards);
-
   const formattedBillboards: BillboardColumn[] = billboards.map((item) => ({
     id: item.id,
     label: item.label,
