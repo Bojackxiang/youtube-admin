@@ -10,6 +10,7 @@ import { Separator } from "@radix-ui/react-separator";
 import { BillboardColumn } from "./BillBoardCol";
 import DataTable from "@/components/ui/DataTable";
 import { columns } from "./columns";
+import { ApiList } from "@/components/ui/ApiList";
 
 interface BillBoardProps {
   data: BillboardColumn[];
@@ -24,7 +25,7 @@ const BillBoard = ({ data }: BillBoardProps) => {
       <div className="flex items-center justify-between">
         <Heading
           title={`Billboards (${data.length})`}
-          description="Manage billboards for your store"
+          description="Are you sure you want to delete the billboard?"
         />
         <Button
           onClick={() => router.push(`/${params.storeid}/billboards/new`)}
@@ -36,7 +37,7 @@ const BillBoard = ({ data }: BillBoardProps) => {
       <DataTable columns={columns} data={data} />
       <Heading title="API" description="API Calls for Billboards" />
       <Separator />
-      {/* <ApiList entityName="billboards" entityIdName="billboardId" /> */}
+      <ApiList entityName="billboards" entityIdName="billboardId" />
     </>
   );
 };

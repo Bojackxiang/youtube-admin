@@ -40,6 +40,8 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
       await axios.delete(`/api/${storeid}/billboards/${id}`);
       toast.success("Billboard deleted successfully");
       router.refresh();
+      setOpen(false);
+      router.push(`/${storeid}/billboards`)
     } catch (error) {
       toast.success("Something wrong ");
     } finally {
