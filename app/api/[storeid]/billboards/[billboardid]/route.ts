@@ -40,14 +40,13 @@ export async function GET(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { billboardid: string} }
+  { params }: { params: { billboardid: string } }
 ) {
   try {
-    
     const { userId } = auth();
     const { label, imageUrl } = await req.json();
-    console.log('label: ', label);
-    console.log('billboardid: ', params.billboardid);
+    console.log("label: ", label);
+    console.log("billboardid: ", params.billboardid);
 
     if (!userId) {
       return new NextResponse("UnAuthenticated", { status: 401 });
@@ -69,7 +68,7 @@ export async function PATCH(
         label,
         imageUrl,
         id: params.billboardid,
-      }
+      },
     });
 
     return NextResponse.json({ billboard });
@@ -78,29 +77,26 @@ export async function PATCH(
   }
 }
 
-
 export async function DELETE(
   req: Request,
   { params }: { params: { billboardid: string } }
 ) {
   try {
-    console.log('deleting ')
-    const {billboardid} = params
+    console.log("deleting ");
+    const { billboardid } = params;
     const { userId } = auth();
 
-    console.log("billboardid", billboardid)
-
-    if(!userId) {
+    if (!userId) {
       return new NextResponse("UnAuthenticated", { status: 401 });
     }
 
     await prismadb.billboard.delete({
       where: {
-        id: billboardid
-      }
-    })
+        id: billboardid,
+      },
+    });
 
-    return NextResponse.json({});
+    return NextResponse.json({}); 
   } catch (error) {
     console.error(DELETEPathAlias, error);
   }
