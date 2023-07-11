@@ -45,8 +45,6 @@ export async function PATCH(
   try {
     const { userId } = auth();
     const { label, imageUrl } = await req.json();
-    console.log("label: ", label);
-    console.log("billboardid: ", params.billboardid);
 
     if (!userId) {
       return new NextResponse("UnAuthenticated", { status: 401 });
@@ -82,7 +80,6 @@ export async function DELETE(
   { params }: { params: { billboardid: string } }
 ) {
   try {
-    console.log("deleting ");
     const { billboardid } = params;
     const { userId } = auth();
 

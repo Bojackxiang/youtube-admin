@@ -12,7 +12,6 @@ export async function POST(
   { params }: { params: { storeid: string } }
 ) {
   try {
-    console.log("POST TRIGGERED")
     const { userId } = auth();
     const body = await req.json();
     const { label, imageUrl } = body;
@@ -37,7 +36,7 @@ export async function POST(
         id: storeid,
       },
     });
-    console.log(store)
+
     if (!store || store.userId !== userId) {
       return new NextResponse("You are not allow to change this store", {
         status: 404,

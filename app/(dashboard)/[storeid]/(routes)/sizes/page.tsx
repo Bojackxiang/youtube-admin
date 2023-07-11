@@ -3,47 +3,43 @@ import { format } from "date-fns";
 import { redirect } from "next/navigation";
 
 import prismadb from "@/lib/prismadb";
-import { CategoryCol } from "./components/columns";
-import CategoryClient from "./components/CategoriesClient";
+import { SizeCol } from "./components/columns";
+import SizeClient from "./components/SizeClient";
 
-interface BillBoardProps {
+interface SizesProps {
   params: {
     storeid: string;
   };
 }
 
-const CategoryPage = async ({ params: { storeid } }: BillBoardProps) => {
+const SizesPage = async ({ params: { storeid } }: SizesProps) => {
   if (!storeid) {
     redirect("/");
   }
 
-  const categories = await prismadb.category.findMany({
+  const sizes = await prismadb.size.findMany({
     where: {
       storeId: storeid,
-    },
-    include: {
-      billboard: true,
     },
     orderBy: {
       createdAt: "desc",
     },
   });
 
-  const formattedCategories: CategoryCol[] = categories.map((item) => ({
+  const formattedSize: SizeCol[] = sizes.map((item) => ({
     id: item.id,
-    label: item.name,
-    billboardName: item.billboard.label,
+    name: item.name,
+    value: item.value,
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
   }));
-
 
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <CategoryClient data={formattedCategories} />
+        <SizeClient data={formattedSize} />
       </div>
     </div>
   );
 };
 
-export default CategoryPage;
+export default SizesPage;

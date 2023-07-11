@@ -12,7 +12,6 @@ interface SettingPageProps {
 
 const SettingPage: React.FC<SettingPageProps> = async ({params: {storeid}}) => {
   const currentUserId = useAuthCheck();
-  console.log('currentUserId: ', currentUserId);
 
   if(!currentUserId){
     redirect("/sign-in")

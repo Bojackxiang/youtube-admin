@@ -47,7 +47,6 @@ interface CategoryFormProps {
 }
 
 const CategoryForm = ({ initialData, billboards }: CategoryFormProps) => {
-  console.log(initialData);
   const params = useParams();
   const router = useRouter();
   const { categoryid } = params;

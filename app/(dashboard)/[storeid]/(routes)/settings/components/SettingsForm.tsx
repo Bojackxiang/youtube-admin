@@ -58,8 +58,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       toast.success("Store updated ");
       router.refresh();
     } catch (error: any) {
-      toast.error("Something went wrong");
-      console.log(error.message);
+      console.error(error.message);
     } finally {
       setLoading(false);
     }
@@ -75,7 +74,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       toast.success("Store Deleted ");
     } catch (error: any) {
       toast.error("Something went wrong");
-      console.log(error.message);
+      console.error(error.message);
     } finally {
       setLoading(false);
     }
