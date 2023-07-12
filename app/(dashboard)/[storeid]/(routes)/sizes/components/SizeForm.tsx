@@ -6,7 +6,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Billboard, Size } from "@prisma/client";
+import { Size } from "@prisma/client";
 import axios from "axios";
 import toast from "react-hot-toast";
 import AlertModal from "@/components/modals/AlertModal";
@@ -30,13 +30,13 @@ const formSchema = z.object({
   value: z.string().min(1),
 });
 
-type BillboardFormValues = z.infer<typeof formSchema>;
+type SizeFormValues = z.infer<typeof formSchema>;
 
-interface BillboardFormProps {
+interface SizeFormProps {
   initialData: Size | null;
 }
 
-const SizeForm = ({ initialData }: BillboardFormProps) => {
+const SizeForm = ({ initialData }: SizeFormProps) => {
   const params = useParams();
   const router = useRouter();
 
@@ -50,7 +50,7 @@ const SizeForm = ({ initialData }: BillboardFormProps) => {
     : "Size created.";
   const action = initialData ? "Save changes" : "Create";
 
-  const form = useForm<BillboardFormValues>({
+  const form = useForm<SizeFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
@@ -58,19 +58,19 @@ const SizeForm = ({ initialData }: BillboardFormProps) => {
     },
   });
 
-  const onSubmit = async (data: BillboardFormValues) => {
+  const onSubmit = async (data: SizeFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
         await axios.patch(
-          `/api/${params.storeid}/billboards/${params.billboardId}`,
+          `/api/${params.storeid}/sizes/${params.sizeid}`,
           data
         );
       } else {
-        await axios.post(`/api/${params.storeid}/billboards`, data);
+        await axios.post(`/api/${params.storeid}/sizes`, data);
       }
       router.refresh();
-      router.push(`/${params.storeid}/billboards`);
+      router.push(`/${params.storeid}/sizes`);
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error("Something went wrong.");
@@ -83,14 +83,14 @@ const SizeForm = ({ initialData }: BillboardFormProps) => {
     try {
       setLoading(true);
       await axios.delete(
-        `/api/${params.storeId}/sizes/${params.billboardId}`
+        `/api/${params.storeId}/sizes/${params.sizeid}`
       );
       router.refresh();
       router.push(`/${params.storeId}/sizes`);
-      toast.success("Billboard deleted.");
+      toast.success("Size deleted.");
     } catch (error: any) {
       toast.error(
-        "Make sure you removed all categories using this billboard first."
+        "Make sure you removed all categories using this size first."
       );
     } finally {
       setLoading(false);

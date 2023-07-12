@@ -24,21 +24,21 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const params = useParams();
   const [loading, setLoading] = useState(false);
   const { id } = data;
-  const { storeid, billboardid } = params;
+  const { storeid, sizeid } = params;
   const [open, setOpen] = useState(false);
 
   const onCopy = () => {
     navigator.clipboard.writeText(id);
-    toast.success("Billboard id copied successfully");
+    toast.success("Size id copied to clipboard");
   };
 
   const onDelete = async () => {
     try {
-      await axios.delete(`/api/${storeid}/billboards/${id}`);
-      toast.success("Billboard deleted successfully");
+      await axios.delete(`/api/${storeid}/sizes/${id}`);
+      toast.success("Size deleted successfully");
       router.refresh();
       setOpen(false);
-      router.push(`/${storeid}/billboards`)
+      router.push(`/${storeid}/sizes`)
     } catch (error) {
       toast.success("Something wrong ");
     } finally {
@@ -65,12 +65,12 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => router.push(`/${storeid}/billboards/${id}`)}
+            onClick={() => router.push(`/${storeid}/sizes/${id}`)}
           >
             Enter Page
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <span className="text-red-500">Delete Billboard</span>
+            <span className="text-red-500">Delete Size</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onCopy()}>Copy id</DropdownMenuItem>
         </DropdownMenuContent>
