@@ -3,6 +3,7 @@
     "billboardid",
     "categoryid",
     "colorid",
+    "orderid",
     "productid",
     "sizeid",
     "storeid"
