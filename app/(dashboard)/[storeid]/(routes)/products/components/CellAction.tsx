@@ -14,12 +14,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import axios from "axios";
 import AlertModal from "@/components/modals/AlertModal";
+import { ProductCol } from "./columns";
 interface CellActionProps {
-  data: {
-    id: string;
-    label: string;
-    createdAt: string;
-  };
+  data: ProductCol;
 }
 
 const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -27,21 +24,21 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const params = useParams();
   const [loading, setLoading] = useState(false);
   const { id } = data;
-  const { storeid, billboardid } = params;
+  const { storeid, productid } = params;
   const [open, setOpen] = useState(false);
 
   const onCopy = () => {
     navigator.clipboard.writeText(id);
-    toast.success("Billboard id copied successfully");
+    toast.success("Product id copied successfully");
   };
 
   const onDelete = async () => {
     try {
-      await axios.delete(`/api/${storeid}/billboards/${id}`);
-      toast.success("Billboard deleted successfully");
+      await axios.delete(`/api/${storeid}/products/${id}`);
+      toast.success("Product deleted successfully");
       router.refresh();
       setOpen(false);
-      router.push(`/${storeid}/billboards`)
+      router.push(`/${storeid}/products`)
     } catch (error) {
       toast.success("Something wrong ");
     } finally {
@@ -68,12 +65,12 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => router.push(`/${storeid}/billboards/${id}`)}
+            onClick={() => router.push(`/${storeid}/products/${id}`)}
           >
             Enter Page
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <span className="text-red-500">Delete Category</span>
+            <span className="text-red-500">Delete Product</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onCopy()}>Copy id</DropdownMenuItem>
         </DropdownMenuContent>

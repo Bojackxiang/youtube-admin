@@ -6,13 +6,13 @@ import prismadb from "@/lib/prismadb";
 import { CategoryCol } from "./components/columns";
 import CategoryClient from "./components/CategoriesClient";
 
-interface BillBoardProps {
+interface CategoryProps {
   params: {
     storeid: string;
   };
 }
 
-const CategoryPage = async ({ params: { storeid } }: BillBoardProps) => {
+const CategoryPage = async ({ params: { storeid } }: CategoryProps) => {
   if (!storeid) {
     redirect("/");
   }
