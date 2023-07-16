@@ -10,19 +10,15 @@ const DELETEPathAlias = "[DELETE]";
 
 export async function GET(
   req: Request,
-  { params }: { params: { storeid: string; billboardId: string } }
+  { params }: { params: { storeid: string; billboardid: string } }
 ) {
   try {
-    const { userId } = auth();
-    const { billboardId, storeid } = params;
-
-    if (!userId) {
-      return new NextResponse("UnAuthenticated", { status: 401 });
-    }
+    console.log('triggered')
+    const { billboardid, storeid } = params;
 
     const billboard = await prismadb.billboard.findUnique({
       where: {
-        id: billboardId,
+        id: billboardid,
       },
     });
 
