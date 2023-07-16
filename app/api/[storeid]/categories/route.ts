@@ -3,7 +3,29 @@ import { getStoreById } from "@/request/store";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
+const GETPathAlias = "[GET]";
 const POSTPathAlias = "[POST]";
+
+export async function GET(
+  req: Request,
+  { params }: { params: { storeid: string } }
+) {
+  try {
+    
+    const { storeid } = params;
+
+    const categories = await prismadb.category.findMany({
+      where: {
+        storeId: storeid,
+      },
+    });
+
+    return NextResponse.json({ categories });
+  } catch (error) {
+    console.log('[CATEGORIES_GET]', error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
 
 // post request
 export async function POST(
@@ -39,4 +61,3 @@ export async function POST(
     console.error(POSTPathAlias, error);
   }
 }
-
