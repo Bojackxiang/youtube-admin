@@ -11,6 +11,26 @@ const patchPathAlias = "[PATCH]";
 const DELETEPathAlias = "[DELETE]";
 
 // post request
+export async function GET(
+  req: Request,
+  { params }: { params: { storeid: string } }
+) {
+  try {
+    const { storeid } = params;
+
+    const response = await prismadb.product.findMany({
+      where: {
+        storeId: storeid,
+      },
+    });
+
+    return NextResponse.json({ response });
+  } catch (error) {
+    console.error(GETPathAlias, error);
+  }
+}
+
+// post request
 export async function POST(
   req: Request,
   { params }: { params: { storeid: string } }
@@ -45,10 +65,8 @@ export async function POST(
         colorId,
         images: {
           createMany: {
-            data: [
-              ...images.map((image: {url: string}) => image)
-            ]
-          }
+            data: [...images.map((image: { url: string }) => image)],
+          },
         },
         categoryId,
       },
