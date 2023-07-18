@@ -18,13 +18,13 @@ export async function GET(
   try {
     const { storeid } = params;
 
-    const response = await prismadb.product.findMany({
+    const products = await prismadb.product.findMany({
       where: {
         storeId: storeid,
       },
     });
 
-    return NextResponse.json({ response });
+    return NextResponse.json({ products });
   } catch (error) {
     console.error(GETPathAlias, error);
   }
