@@ -22,6 +22,9 @@ export async function GET(
       where: {
         storeId: storeid,
       },
+      include: {
+        images: true,
+      }
     });
 
     return NextResponse.json({ products });
