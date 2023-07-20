@@ -13,18 +13,34 @@ const DELETEPathAlias = "[DELETE]";
 // post request
 export async function GET(
   req: Request,
-  { params }: { params: { storeid: string } }
+  {
+    params,
+  }: {
+    params: {
+      storeid: string;
+      sizeId: string;
+      categoryId: string;
+      colorId: string;
+    };
+  }
 ) {
   try {
     const { storeid } = params;
+    const { searchParams } = new URL(req.url);
+    const sizeId = searchParams.get("sizeId") || undefined;
+    const categoryId = searchParams.get("categoryId") || undefined;
+    const colorId = searchParams.get("colorId") || undefined;
 
     const products = await prismadb.product.findMany({
       where: {
         storeId: storeid,
+        sizeId: sizeId,
+        categoryId: categoryId,
+        colorId: colorId,
       },
       include: {
         images: true,
-      }
+      },
     });
 
     return NextResponse.json({ products });

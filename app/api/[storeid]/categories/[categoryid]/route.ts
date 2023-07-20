@@ -12,16 +12,11 @@ const DELETEPathAlias = "[DELETE]";
 // get request
 export async function GET(
   req: Request,
-  { params }: { params: { paramName: string } }
+  { params }: { params: { categoryid: string } }
 ) {
   try {
-    const { userId } = auth();
-
-    if (!userId) {
-      return new NextResponse("UnAuthenticated", { status: 401 });
-    }
-
-    return NextResponse.json({});
+    const category = await getCategoryById(params.categoryid);
+    return NextResponse.json({ category });
   } catch (error) {
     console.error(GETPathAlias, error);
   }

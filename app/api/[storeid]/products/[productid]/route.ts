@@ -7,6 +7,39 @@ const patchPathAlias = "[PATCH]";
 const DELETEPathAlias = "[DELETE]";
 
 // update request
+export async function GET(
+  req: Request,
+  { params }: { params: { storeid: string; productid: string } }
+) {
+  try {
+    
+    const { storeid, productid } = params;
+    
+
+    const store = await getStoreById(storeid);
+    if (!store) {
+      return new NextResponse("Store not found", { status: 404 });
+    }
+
+    const product = await prismadb.product.findUnique({
+      where: {
+        id: productid,
+      },
+      include: {
+        category: true, 
+        images: true,
+        size: true,
+        color: true
+      }
+    })
+
+    return NextResponse.json({product});
+  } catch (error) {
+    console.error(patchPathAlias, error);
+  }
+}
+
+// update request
 export async function PATCH(
   req: Request,
   { params }: { params: { storeid: string; productid: string } }

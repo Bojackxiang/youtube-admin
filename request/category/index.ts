@@ -5,6 +5,9 @@ export const getCategoryById = async (id: string) => {
     where: {
       id,
     },
+    include: {
+      billboard: true,
+    }
   });
 
   return category;
