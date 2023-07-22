@@ -1,9 +1,12 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
+
+import prismadb from "@/lib/prismadb";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ModalProvider } from "@/providers/modal-provider";
-import prismadb from "@/lib/prismadb";
 import { ToastProvider } from "@/providers/toast-provider";
+import { ThemeProvider } from "@/providers/dark-provider";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -20,9 +23,11 @@ export default function RootLayout({
     <html lang="en">
       <ClerkProvider>
         <body className={inter.className}>
-          <ToastProvider />
-          <ModalProvider />
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            <ToastProvider />
+            <ModalProvider />
+            {children}
+          </ThemeProvider>
         </body>
       </ClerkProvider>
     </html>
