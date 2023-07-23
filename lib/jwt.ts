@@ -1,9 +1,10 @@
 import { sign, verify } from 'jsonwebtoken'
 
-const SECRET = process.env.SECRET as string
+export const SECRET = process.env.SECRET as string
 
 export const encodePassword = (rawPassword: string) => {
-  var token = sign(rawPassword, SECRET);
+  const token = sign(rawPassword, SECRET);
+  return token;
 }
 
 export const decodePassword = (encodedPassword: string) => {
