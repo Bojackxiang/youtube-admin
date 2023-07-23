@@ -1,6 +1,5 @@
 import { generateToken, passwordCompare } from "@/lib/jwt";
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 const POSTPathAlias = "[POST]";
