@@ -1,3 +1,4 @@
+import { generateToken, passwordCompare } from "@/lib/jwt";
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
@@ -12,14 +13,14 @@ type ParamsProps = {
 export async function POST(req: Request, { params }: ParamsProps) {
   try {
     const body = await req.json();
-    const { email, password } = body;
+    const { email, password: encodedPassword } = body;
     const { storeid } = params;
 
     if (!email) {
       return new NextResponse("Username is required", { status: 400 });
     }
 
-    if (!password) {
+    if (!encodedPassword) {
       return new NextResponse("Username is required", { status: 400 });
     }
 
@@ -33,7 +34,34 @@ export async function POST(req: Request, { params }: ParamsProps) {
       return new NextResponse("Store not found", { status: 400 });
     }
 
-    return NextResponse.json({});
+    const foundUser = await prismadb.customer.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!foundUser) {
+      return new NextResponse("User not found", { status: 400 });
+    }
+
+    const { password } = foundUser;
+    const compareResult = await passwordCompare(foundUser.password, password);
+
+    if (!compareResult) {
+      return new NextResponse("Username / password is not correct", {
+        status: 400,
+      });
+    }
+
+    const token = generateToken({
+      id: foundUser.id,
+      email: foundUser.email,
+      storeid: store.id,
+    });
+
+    return NextResponse.json({
+      token,
+    });
   } catch (error) {
     console.error(POSTPathAlias, error);
   }

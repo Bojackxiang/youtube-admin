@@ -1,11 +1,7 @@
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-const GETPathAlias = "[GET]";
 const POSTPathAlias = "[POST]";
-const patchPathAlias = "[PATCH]";
-const DELETEPathAlias = "[DELETE]";
 
 type ParamsProps = {
   params: { storeid: string };
@@ -40,7 +36,12 @@ export async function POST(req: Request, { params }: ParamsProps) {
       },
     });
 
-    return NextResponse.json({});
+    return NextResponse.json({
+      email: customer.email,
+      phone: customer.phone,
+      id: customer.id,
+      storeId: storeid,
+    });
   } catch (error) {
     console.error(POSTPathAlias, error);
   }

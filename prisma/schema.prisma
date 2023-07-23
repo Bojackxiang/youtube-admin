@@ -30,7 +30,7 @@ model Customer {
   id              String            @id @default(uuid())
   storeId         String
   store           Store             @relation("StoreToCustomer", fields: [storeId], references: [id])
-  email           String
+  email           String            @unique
   password        String
   phone           String
   createdAt       DateTime          @default(now())
