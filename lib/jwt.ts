@@ -27,12 +27,14 @@ export const decodeStoreId = async (token: string) => {
 };
 
 export const passwordCompare = async (
-  encodedPassword: string,
+  jwtPassword: string,
   rawPassword: string
 ) => {
   try {
-    const decodedPassword = await decodePassword(encodedPassword);
-    return decodedPassword === rawPassword;
+    console.log(jwtPassword)
+    console.log(rawPassword);
+    const encodedPassword = await encodePassword(rawPassword);
+    return encodedPassword === jwtPassword;
   } catch (error) {
     return false;
   }

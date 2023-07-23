@@ -20,11 +20,11 @@ export async function POST(req: Request, { params }: ParamsProps) {
 
     // check of the request send from store
     if (!storeToken) {
-      return new NextResponse("Invalid request", { status: 400 });
+      return restResponse("Invalid request", false, {}, 400);
     }
     const decodedStoreId = await decodeStoreId(storeToken);
     if (decodedStoreId === "") {
-      return new NextResponse("Invalid request", { status: 400 });
+      return restResponse("Invalid request", false, {}, 400);
     }
 
     // validation and create customer
@@ -58,14 +58,12 @@ export async function POST(req: Request, { params }: ParamsProps) {
       },
     });
 
-    return NextResponse.json({
+    return restResponse("Create user successfully", true, {
       email: customer.email,
       phone: customer.phone,
     });
   } catch (error) {
     console.error(POSTPathAlias, error);
-    return new NextResponse("Something wrong, try again later", {
-      status: 500,
-    });
+    return restResponse("Something wrong, try again later", false);
   }
 }
