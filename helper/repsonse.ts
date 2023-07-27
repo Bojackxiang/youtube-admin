@@ -6,9 +6,12 @@ export const restResponse = (
   payload: { [key: string]: any } = {},
   status: number = 200
 ) => {
-  return NextResponse.json({
-    message,
-    success,
-    payload
-  }, {status});
+  return NextResponse.json(
+    {
+      message,
+      success,
+      payload,
+    },
+    { status }
+  );
 };
