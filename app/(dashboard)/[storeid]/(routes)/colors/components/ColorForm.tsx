@@ -131,7 +131,7 @@ const ColorForm = ({ initialData }: ColorFormProps) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Color Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
