@@ -20,30 +20,30 @@ export async function POST(req: Request, { params }: ParamsProps) {
     console.log("triggered");
     const body = await req.json();
     const { storeid } = params;
-    const { storeToken, email, password, phone } = body;
+    const { storeToken, email, password, phone, firstName, lastName } = body;
 
+    
     // check of the request send from store
     if (!storeToken) {
       return restResponse("Invalid store token", false, {}, 200);
     }
+
     const decodedStoreId = await decodeStoreId(storeToken);
     if (decodedStoreId === "") {
       return restResponse("Invalid store token", false, {}, 200);
     }
 
-    // validation and create customer
-    if (!storeToken || decodedStoreId === "") {
-      return restResponse("Invalid store token", false, {}, 200);
+    if (!email || !password || !firstName || !lastName) {
+      return restResponse(
+        "Email, password, first name, and last name are required",
+        false,
+        {},
+        200
+      );
     }
 
-    if (!email) {
-      return restResponse("Email is required", false, {}, 200);
-    }
-
-    if (!password) {
-      return restResponse("Password is required", false, {}, 200);
-    }
-
+    
+    // verify the user
     const foundCustomer = await prismadb.customer.findFirst({
       where: {
         email: email,
@@ -53,15 +53,21 @@ export async function POST(req: Request, { params }: ParamsProps) {
       return restResponse("Email already exists", false, {}, 200);
     }
 
+
+    // create the user 
     const customer = await prismadb.customer.create({
       data: {
         storeId: storeid,
         email: email,
         password: password,
         phone: phone,
+        firstName,
+        lastName,
       },
     });
 
+
+    // return information to the store
     return restResponse(
       "Create user successfully",
       true,
@@ -72,6 +78,8 @@ export async function POST(req: Request, { params }: ParamsProps) {
       },
       200
     );
+
+
   } catch (error) {
     console.error(POSTPathAlias, error);
     return restResponse("Something wrong, try again later", true, {}, 400);
