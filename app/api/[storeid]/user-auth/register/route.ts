@@ -20,18 +20,7 @@ export async function POST(req: Request, { params }: ParamsProps) {
     console.log("triggered");
     const body = await req.json();
     const { storeid } = params;
-    const { storeToken, email, password, phone, firstName, lastName } = body;
-
-    
-    // check of the request send from store
-    if (!storeToken) {
-      return restResponse("Invalid store token", false, {}, 200);
-    }
-
-    const decodedStoreId = await decodeStoreId(storeToken);
-    if (decodedStoreId === "") {
-      return restResponse("Invalid store token", false, {}, 200);
-    }
+    const {  email, password, phone, firstName, lastName } = body;
 
     if (!email || !password || !firstName || !lastName) {
       return restResponse(

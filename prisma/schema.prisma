@@ -36,7 +36,8 @@ model Customer {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   customerAddress CustomerAddress?
-
+  firstName       String
+  lastName        String
   @@index([storeId])
 }
 

@@ -19,8 +19,7 @@ export const decodePassword = async (encodedPassword: string) => {
 export const decodeStoreId = async (token: string) => {
   try {
     const result = await verify(token, SECRET);
-    console.log('result: ', result);
-    return result
+    return result;
   } catch (error) {
     return "";
   }
@@ -31,10 +30,8 @@ export const passwordCompare = async (
   rawPassword: string
 ) => {
   try {
-    console.log(jwtPassword)
-    console.log(rawPassword);
-    const encodedPassword = await encodePassword(rawPassword);
-    return encodedPassword === jwtPassword;
+    const decodedPassword = await verify(jwtPassword, process.env.SECRET as string);
+    return decodedPassword === rawPassword;
   } catch (error) {
     return false;
   }
