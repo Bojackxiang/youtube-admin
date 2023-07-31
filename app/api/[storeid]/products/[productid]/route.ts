@@ -114,7 +114,6 @@ export async function DELETE(
 ) {
   try {
     const { storeid, productid } = params;
-    console.log(productid)
     const { userId } = auth();
 
     if (!userId) {

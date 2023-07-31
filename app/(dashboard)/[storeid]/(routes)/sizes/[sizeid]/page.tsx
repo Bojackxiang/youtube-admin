@@ -10,7 +10,6 @@ interface SizeFormPagePage {
 
 const SizeFormPage = async ({ params }: SizeFormPagePage) => {
   const { sizeId } = params;
-  console.log('billboardId: ', sizeId);
 
   const billboard = await prismadb.size.findFirst({
     where: {

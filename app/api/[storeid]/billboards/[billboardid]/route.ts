@@ -13,7 +13,6 @@ export async function GET(
   { params }: { params: { storeid: string; billboardid: string } }
 ) {
   try {
-    console.log('triggered')
     const { billboardid, storeid } = params;
 
     const billboard = await prismadb.billboard.findUnique({

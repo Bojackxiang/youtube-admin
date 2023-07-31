@@ -14,11 +14,9 @@ export async function OPTIONS() {
 // post request
 export async function POST(req: Request, { params }: ParamsProps) {
   try {
-    console.log("triggered");
     const body = await req.json();
     const { storeid } = params;
     const { email, password, phone, firstName, lastName } = body;
-    console.log('password: ', password);
 
     if (!email || !password || !firstName || !lastName || !phone) {
       return restResponse(

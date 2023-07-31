@@ -19,8 +19,6 @@ export async function POST(
   { params }: { params: { storeid: string } }
 ) {
   const { productIds } = await req.json();
-  console.log(params);
-  console.log(productIds);
 
   if (!productIds || productIds.length === 0) {
     return new NextResponse("Product ids are required", { status: 400 });
@@ -69,8 +67,6 @@ export async function POST(
       },
     },
   });
-
-  console.log(process.env.FRONTEND_STORE_URL);
 
   const session = await stripe.checkout.sessions.create({
     line_items,

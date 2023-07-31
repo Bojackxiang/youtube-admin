@@ -54,10 +54,7 @@ export async function POST(req: Request, { params }: ParamsProps) {
 
     const { password } = foundUser;
 
-    console.log(password, rawPassword);
-
     const compareResult = await comparePassword(rawPassword, password);
-    console.log("compareResult: ", compareResult);
 
     if (!compareResult) {
       return restResponse("Email / password is not correct", false, {}, 200);
@@ -71,7 +68,7 @@ export async function POST(req: Request, { params }: ParamsProps) {
 
     return restResponse("Login success", true, { token });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return restResponse("Something wrong, try again later", false);
   }
 }

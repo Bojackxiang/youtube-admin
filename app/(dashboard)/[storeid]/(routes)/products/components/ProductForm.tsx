@@ -120,7 +120,6 @@ const ProductForm = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      console.log(params.productid);
       await axios.delete(`/api/${params.storeid}/products/${params.productid}`);
       router.refresh();
       router.push(`/${params.storeId}/products`);
