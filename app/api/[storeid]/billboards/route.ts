@@ -2,10 +2,8 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-const GETPathAlias = "[GET]";
 const POSTPathAlias = "[BILLBOARD_POST]";
 const patchPathAlias = "[PATCH]";
-const DELETEPathAlias = "[DELETE]";
 
 export async function POST(
   req: Request,

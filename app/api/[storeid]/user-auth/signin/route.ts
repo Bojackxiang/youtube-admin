@@ -1,5 +1,6 @@
 import { restResponse } from "@/helper/repsonse";
-import { decodeStoreId, generateToken, passwordCompare } from "@/lib/jwt";
+import { generateToken } from "@/lib/jwt";
+import { comparePassword } from "@/lib/password-helper";
 import prismadb from "@/lib/prismadb";
 
 const POSTPathAlias = "[POST]";
@@ -15,22 +16,13 @@ export async function POST(req: Request, { params }: ParamsProps) {
     const { storeToken, email, password: rawPassword } = body;
     const { storeid } = params;
 
-    // check of the request send from store
-    if (!storeToken) {
-      return restResponse("Email is required", false, {}, 400);
-    }
-    const decodedStoreId = await decodeStoreId(storeToken);
-    if (decodedStoreId === "") {
-      return restResponse("Email is required", false, {}, 400);
-    }
-
     // validation and check user info
     if (!email) {
-      return restResponse("Email is required", false, {}, 400);
+      return restResponse("Email is required", false, {}, 200);
     }
 
     if (!rawPassword) {
-      return restResponse("Password is required", false, {}, 400);
+      return restResponse("Password is required", false, {}, 200);
     }
 
     const store = await prismadb.store.findUnique({
@@ -40,25 +32,35 @@ export async function POST(req: Request, { params }: ParamsProps) {
     });
 
     if (!store) {
-      return restResponse("Store id is invalid", false, {}, 400);
+      return restResponse("Store id is invalid", false, {}, 200);
     }
 
-    const foundUser = await prismadb.customer.findUnique({
+    const foundUsers = await prismadb.customer.findMany({
       where: {
         email: email,
+        storeId: store.id,
       },
     });
 
+    if (foundUsers.length === 0) {
+      return restResponse("User not found", false, {}, 200);
+    }
+
+    const foundUser = foundUsers[0];
+
     if (!foundUser) {
-      return restResponse("User not found", false, {}, 404);
+      return restResponse("User not found", false, {}, 200);
     }
 
     const { password } = foundUser;
 
-    const compareResult = await passwordCompare(password, rawPassword);
+    console.log(password, rawPassword);
+
+    const compareResult = await comparePassword(rawPassword, password);
+    console.log("compareResult: ", compareResult);
 
     if (!compareResult) {
-      return restResponse("Email / password is not correct", false, {}, 400);
+      return restResponse("Email / password is not correct", false, {}, 200);
     }
 
     const token = generateToken({
@@ -69,6 +71,7 @@ export async function POST(req: Request, { params }: ParamsProps) {
 
     return restResponse("Login success", true, { token });
   } catch (error) {
-    return restResponse("Something wrong, try again later", false,);
+    console.log(error);
+    return restResponse("Something wrong, try again later", false);
   }
 }
