@@ -66,7 +66,11 @@ export async function POST(req: Request, { params }: ParamsProps) {
       storeid: store.id,
     });
 
-    return restResponse("Login success", true, { token });
+    return restResponse("Login success", true, {
+      token,
+      id: foundUser.id,
+      email,
+    });
   } catch (error) {
     console.error(error);
     return restResponse("Something wrong, try again later", false);
