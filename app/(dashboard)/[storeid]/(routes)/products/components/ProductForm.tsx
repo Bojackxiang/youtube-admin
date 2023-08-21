@@ -33,6 +33,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import SelectContentHelper from "./helper/SelectContent.helper";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -161,12 +162,13 @@ const ProductForm = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
+          <h1 className="text-xl font-bold">Image Uploader</h1>
           <FormField
             control={form.control}
             name="images"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Background image</FormLabel>
+                <FormLabel>First Image will be the cover image</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value.map((image) => image.url)}
@@ -187,7 +189,7 @@ const ProductForm = ({
               </FormItem>
             )}
           />
-          <h2>Properties</h2>
+          <h2 className="text-xl font-bold">Properties</h2>
           <div className="md:grid md:grid-cols-3 gap-8 ">
             <FormField
               control={form.control}
@@ -243,13 +245,7 @@ const ProductForm = ({
                         />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
+                    <SelectContentHelper listValues={categories} />
                   </Select>
                   <FormMessage />
                 </FormItem>
@@ -275,13 +271,7 @@ const ProductForm = ({
                         />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
-                      {sizes.map((size) => (
-                        <SelectItem key={size.id} value={size.id}>
-                          {size.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
+                    <SelectContentHelper listValues={sizes} />
                   </Select>
                   <FormMessage />
                 </FormItem>
@@ -307,13 +297,7 @@ const ProductForm = ({
                         />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
-                      {colors.map((color) => (
-                        <SelectItem key={color.id} value={color.id}>
-                          {color.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
+                    <SelectContentHelper listValues={colors} />
                   </Select>
                   <FormMessage />
                 </FormItem>
@@ -321,7 +305,7 @@ const ProductForm = ({
             />
           </div>
 
-          <h2>Attributes</h2>
+          <h2 className="text-xl font-bold">Attributes</h2>
           <div className="md:grid md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
