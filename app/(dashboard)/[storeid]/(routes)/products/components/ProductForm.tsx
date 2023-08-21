@@ -187,13 +187,14 @@ const ProductForm = ({
               </FormItem>
             )}
           />
-          <div className="md:grid md:grid-cols-3 gap-8">
+          <h2>Properties</h2>
+          <div className="md:grid md:grid-cols-3 xs:grid-cols-1 gap-8 sm:space-y-4">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Label</FormLabel>
+                  <FormLabel>Product Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
@@ -318,6 +319,10 @@ const ProductForm = ({
                 </FormItem>
               )}
             />
+          </div>
+
+          <h2>Attributes</h2>
+          <div className="md:grid md:grid-cols-3 gap-8 sm:space-y-4">
             <FormField
               control={form.control}
               name="isFeatured"
@@ -361,7 +366,7 @@ const ProductForm = ({
               )}
             />
           </div>
-          <div className="md:grid md:grid-cols-3 gap-8"></div>
+
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
           </Button>
