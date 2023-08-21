@@ -188,13 +188,13 @@ const ProductForm = ({
             )}
           />
           <h2>Properties</h2>
-          <div className="md:grid md:grid-cols-3 xs:grid-cols-1 gap-8 sm:space-y-4">
+          <div className="md:grid md:grid-cols-3 gap-8 ">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Product Name</FormLabel>
+                  <FormLabel>Label</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
@@ -322,7 +322,7 @@ const ProductForm = ({
           </div>
 
           <h2>Attributes</h2>
-          <div className="md:grid md:grid-cols-3 gap-8 sm:space-y-4">
+          <div className="md:grid md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="isFeatured"
